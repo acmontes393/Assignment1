@@ -44,5 +44,30 @@ q20 <-  quantile(USArrests$Murder, c(.80))
 most20v <- subset(USArrests, Murder>q20)
 #Use new subset#
 mean(most20v$Murder)
-#Set Working directory
-setwd(\Users\Natalia\Desktop\Master_Hertie\Semester_3\R_codes)
+#Set Working directory 
+# setwd(\Users\Natalia\Desktop\Master_Hertie\Semester_3\R_codes) #let me skip this line
+
+# for 10 least dangerous states
+q20L <- quantile(USArrests$Murder, c(.20))
+least20v <- subset(USArrests, Murder<q20L)
+mean(least20v$Murder)
+
+#############################
+# I just did below for fun. 
+# don't know if we could use for assignment
+#############################
+
+# Putting some other variables together 
+# abbrebiations
+ABB <- c(state.abb)
+# demographics (population, income, ect.) use the next line to see more detail
+# ?state.x77
+STATEFACT <- data.frame(state.x77) 
+
+# new dataframe w/ demographics 
+UScombined <- cbind(ABB, USArrests, STATEFACT) 
+View(UScombined)
+
+# Murder vs life expectancy??
+plot(UScombined$Life.Exp, UScombined$Murder)
+cor.test(UScombined$Life.Exp, UScombined$Murder)
