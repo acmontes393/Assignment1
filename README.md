@@ -1,4 +1,4 @@
 # Assignment1
 
 For Assignment1
-Changes are recorded.
+Uploaded R-code for work done in the second session of Collaborative Research.
