@@ -62,12 +62,17 @@ mean(least20v$Murder)
 ABB <- c(state.abb)
 # demographics (population, income, ect.) use the next line to see more detail
 # ?state.x77
-STATEFACT <- data.frame(state.x77) 
+STATESFACT <- data.frame(state.x77) 
 
 # new dataframe w/ demographics 
-UScombined <- cbind(ABB, USArrests, STATEFACT) 
+UScombined <- cbind(ABB, USArrests, STATESFACT) 
 View(UScombined)
 
 # Murder vs life expectancy??
 plot(UScombined$Life.Exp, UScombined$Murder)
 cor.test(UScombined$Life.Exp, UScombined$Murder)
+
+# linear regression
+lm(UScombined$Murder~UScombined$Life.Exp)
+lmr <- lm(UScombined$Murder~UScombined$Life.Exp)
+summary(lmr)

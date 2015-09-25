@@ -1,0 +1,66 @@
+---
+title: "Seminor - week 3"
+author: "Noriko Magara"
+date: "25 September, 2015"
+output: html_document
+---
+
+
+# Violent Crime Rates by US State
+
+## Preset dataset
+
+I used "**USArrests**" dataset that contains the number of crimes per 100,000 people in each state in **1973**.
+The three types of crimes are: **Murder**, **Assault**, and **Rape**, as well as **Urban population**.
+
+Below is the summary statistics of the dataset. 
+The first command `data("USArrests")` loads the preset dataset.
+The second command `summary(USArrests)` gives summary statistics as shown below.
+
+```{r}
+data("USArrests")
+summary(USArrests)
+```
+
+## Combining with more vectors
+I also used "**state**" dataset that contains informations related to the 50 states. I combined "**state.abb**" and "**state.x77**" to the **USArrests** dataframe and created new one called "**UScombined**" that now has abbrebiations, population, income, etc.
+
+
+```{r}
+# abbrebiations
+ABB <- c(state.abb)
+# demographics (population, income, ect.) 
+STATESFACT <- data.frame(state.x77) 
+
+# new dataframe w/ demographics 
+UScombined <- cbind(ABB, USArrests, STATESFACT) 
+```
+
+The table below shows the whole dataframe.
+
+```{R echo=FALSE, results='asis'}
+knitr::kable(UScombined)
+```
+
+## Analysis on Viorent Crimes 
+###Muder rate vs life expectancy
+
+The scatter plot below shows the relation between murder rate and life expectancy.
+
+```{R}
+plot(UScombined$Life.Exp, UScombined$Murder, 
+     main = 'Murder rate vs life expectancy by states', 
+     xlab = 'Life expectancy (1969-71)', ylab = 'Murder rate (per 100,000) (1973)'
+     )
+```
+
+The correlation test indicates that there are negative correlation of `r cor(UScombined$Life.Exp, UScombined$Murder)`.
+```{R}
+cor.test(UScombined$Life.Exp, UScombined$Murder)
+```
+
+The result from a bivariate linear regression is shown below.
+```{R}
+lmr <- lm(UScombined$Murder~UScombined$Life.Exp)
+summary(lmr)
+```
