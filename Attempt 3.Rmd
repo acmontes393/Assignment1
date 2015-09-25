@@ -68,10 +68,47 @@ hist(USArrests$Murder)
 
 
 
-You can also embed plots, for example:
+## Analysis on viorent crimes
+### Combining some more variables together
 
-```{r, echo=FALSE}
-plot(cars)
+Another built-in dataset ***state*** contains information related to the 50 states. Here, I combined ***state.abb*** and ***state.x77*** to the original ***USArrests*** dataframe and created new one called ***UScombined***, which now has abbrebiations and some demographics such as population, income, etc.
+
+
+```{r}
+# abbrebiations
+ABB <- c(state.abb)
+# demographics (population, income, ect.) 
+STATESFACT <- data.frame(state.x77) 
+
+# new dataframe w/ demographics 
+UScombined <- cbind(ABB, USArrests, STATESFACT) 
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The table below shows the whole dataframe.
+
+```{r echo=FALSE, results='asis'}
+knitr::kable(UScombined)
+```
+
+ 
+### Muder rate vs life expectancy
+
+The scatter plot below shows the relation between murder rate and life expectancy.
+
+```{R}
+plot(UScombined$Life.Exp, UScombined$Murder, 
+     main = 'Murder rate vs life expectancy by states', 
+     xlab = 'Life expectancy (1969-71)', ylab = 'Murder rate (per 100,000) (1973)'
+     )
+```
+
+The correlation test indicates that there are negative correlation of `r cor(UScombined$Life.Exp, UScombined$Murder)`.
+```{R}
+cor.test(UScombined$Life.Exp, UScombined$Murder)
+```
+
+The result from a bivariate linear regression is shown below.
+```{R}
+lmr <- lm(UScombined$Murder~UScombined$Life.Exp)
+summary(lmr)
+```
