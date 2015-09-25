@@ -1,0 +1,77 @@
+---
+title: "Seminar 3"
+author: "S. Natalia Alvarado Pachon"
+date: "25 of September, 2015"
+output: html_document
+---
+# Using RStudio and Markdown
+
+## Description
+
+This document is the first attempt to use **Markdown** and **R**. I will use the R Code constructed in the last session of the class as main input and will show the main codes used for the outputs.
+
+## Using RStudio
+
+RStudio has built-in Datasets that users can use to generate outputs and practice their skills.
+
+To access the list of built-in lists in RStudio, the user must type: `data()`
+To select a dataset, the user can use the code: `data("swiss")`
+
+To inspect the dataset, the user can use the code: `?swiss`
+
+For this excersice, we chose the dataset ***USArrests***
+
+List of ***Number of Crimes per State***
+```{r echo=FALSE}
+knitr::kable(USArrests)
+```
+
+## Arrests in the US when convictions are related to murders
+
+Given that the typology of the arrest can affect dramatically the number of incidents and the violence of the crime, we chose to focus only on Arrests related to Murders.
+
+```{r}
+data("USArrests")
+```
+
+A summary of the information contained in the Dataset gives us a better detail of it
+
+```{r}
+
+summary(USArrests$Murder)
+
+```
+
+The boxplot for this Dataset:
+
+```{r}
+
+boxplot(USArrests$Murder, main = '# of Murders per State')
+
+```
+
+summary(USArrests$Murder)
+boxplot(USArrests$Murder, main = '# of Murders per State')
+
+### Central Tendency and Variation
+
+The mean for the data in the US Arrest is ***`r mean(USArrests$Murder)`***
+
+The median is ***`r median(USArrests$Murder)`***
+
+A histrogram shows more clearly the distribution of the data: 
+
+```{r}
+hist(USArrests$Murder)
+```
+
+
+
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
