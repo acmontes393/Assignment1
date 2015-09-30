@@ -1,62 +1,55 @@
 ---
 title: "Assignment 1"
 author: "S. Natalia Alvarado Pachon & Noriko Magara"
-date: "Octorber 2nd, 2015"
+date: "October 2nd, 2015"
 output: html_document
 ---
-
-```{r, echo=FALSE}
-setwd("C:/Users/noriko/Desktop/Assignment1/session3") # Please change this line!
-```
 
 # Using RStudio and Markdown
 
 ## Description
 
-This document is the first attempt to use **Markdown** and **R**. I will use the R Code constructed in the last session of the class as main input and will show the main codes used for the outputs.
+This document is the first attempt to use **Markdown** and **R**. We will use the R Code constructed in the last session of the class as main input and will show the main codes used for the outputs.
 
 ## Using RStudio
 
-RStudio has built-in Datasets that users can use to generate outputs and practice their skills.
+R Studio has built-in Data sets that users can use to generate outputs and practice their skills.
 
-To access the list of built-in lists in RStudio, the user must type: `data()`
-To select a dataset, the user can use the code: `data("swiss")`
+To access the list of built-in lists in R Studio, the user must type: `data()`
+To select a data set, the user can use the code: `data("swiss")`
 
-To inspect the dataset, the user can use the code: `?swiss`
+To inspect the data set, the user can use the code: `?swiss`
 
-For this excersice, we chose the dataset ***USArrests***
+For this exercise, we chose the data set ***USArrests*** which contains the number of arrests per 100,000 inhabitants per type of crime (assault, murder or rape) and the percentage of the urban population in 1973. These data are indicated per State.
 
 List of ***Number of Crimes per State***
 ```{r, echo=FALSE}
+data("USArrests")
 knitr::kable(USArrests)
 ```
 
 ## Arrests in the US when convictions are related to murders
 
-Given that the typology of the arrest can affect dramatically the number of incidents and the violence of the crime, we chose to focus only on Arrests related to Murders.
+Given that the typology of the arrest can affect dramatically the number of incidents and the violence of the crime, we chose to focus only on Arrests related to Murders. This type of crime is better defined and the outcome can only be given in absolute terms, while variables such as assault can suffer from problems such as lack of report. 
 
-```{r}
-data("USArrests")
-```
+A summary of the information contained in the Data set gives us a better detail of it
 
-A summary of the information contained in the Dataset gives us a better detail of it
-
-```{r}
+```{r, echo=FALSE}
 
 summary(USArrests$Murder)
 
 ```
+This summary shows the mean number of reported murders per 100,000 on this given year was of 7,2. However, strong differences can be found within the country, **North Dakota** accounted for 0,8 murders while **Georgia accounted** for 17.4.
 
-The boxplot for this Dataset:
+This indicates that the distribution of the data may not be as concentrated around the mean or that these rates are outliers. To have a better understanding of the distribution, a boxplot can explain the distribution according to the different quartiles:
 
-```{r}
+```{r, echo=FALSE}
 
 boxplot(USArrests$Murder, main = '# of Murders per State')
 
 ```
+This box plot seems to suggest most observations are in the second quartile.
 
-summary(USArrests$Murder)
-boxplot(USArrests$Murder, main = '# of Murders per State')
 
 ### Central Tendency and Variation
 
@@ -66,27 +59,27 @@ The median is ***`r median(USArrests$Murder)`***
 
 A histrogram shows more clearly the distribution of the data: 
 
-```{r}
+```{r, echo=FALSE}
 hist(USArrests$Murder)
 ```
-
+This histogram shows a distribution skewed to the left. However, no information can be inferred from this data set but the number of crimes committed in this given year. To add other variables could help identify patterns or causalities.
 
 
 
 ## Analysis on viorent crimes
 ### Combining some more variables together
 
-Another built-in dataset ***state*** contains information related to the 50 states. Here, I combined ***state.abb*** (state name abbrebiation) and ***state.x77*** (basic demographics) to the original ***USArrests*** dataframe and created new one called ***UScombined***, which now has abbrebiations and some demographics such as population, income, etc.
+Another built-in data set ***state*** contains information related to the 50 states from 1976. Here, ***state.abb*** (state name abbreviation) and ***state.x77*** (basic demographics) where combined to the original ***USArrests*** data frame and created new one called ***UScombined***, which now has abbreviations and some demographics such as population, income, etc.
 
-The preparation of ***UScombined*** dataframe is coded in a separate code file to simplify the R Markdown file. The table below shows the whole resulting dataframe.
+The preparation of ***UScombined*** data frame is coded in a separate code file to simplify the R Markdown file. The table below shows the whole resulting data frame.
 
 ```{r, results='asis'}
 source("USdataframe.R")
 knitr::kable(UScombined)
 ```
 
-Now, I can for example label the bar chart by abbrebiations. 
-```{r}
+Now, the bar chart can be labeled by abbreviations. 
+```{r, echo=FALSE}
 # sort the dataframe
 SortUScombined <- UScombined[order(-UScombined$Murder) , ]
 
@@ -98,37 +91,47 @@ barplot(SortUScombined$Murder, names.arg=SortUScombined$ABB,
 ```
 
  
-### Muder rate vs life expectancy
-I am interested in exploring the relationship between murder rate and other variable. Here I look into the relationship between murder rate and life expectancy. 
+### Muder rate vs income
+For this exercise, the relationship between murder rate and other variable will be explored. The link between poverty and criminality has been one of the main topics for research in the academia with many social scientists supporting the claim that there is, at least, a high correlation between both. 
+In this case the variable Murders and Income will be jointly scrutinized.
 
 #### Scatter plot
 Below is the scatter plot of the two variables.
 
-```{R}
-plot(UScombined$Life.Exp, UScombined$Murder, 
-     main = 'Murder rate vs life expectancy by states', 
-     xlab = 'Life expectancy (1969-71)', ylab = 'Murder rate (per 100,000) (1973)'
+```{R, echo=FALSE}
+plot(UScombined$Income, UScombined$Murder, 
+     main = 'Murder rate vs income by state', 
+     xlab = 'Income (per capita in 1974)', ylab = 'Murder rate (per 100,000) (1973)'
      )
 ```
 
-It seems like there is a negative correlation, meaning the longer people live, the lower the murder rate in the state. (In those states, probably people are mentally in good health, as well as physicall health.)
+It is very difficult to tell whether this relation has any correlation due to the way the observations are scattered. However, a line can be fitted through the points, trying to facilitate the way the relationship is observed.
 
+```{R, echo=FALSE}
+plot(UScombined$Income, UScombined$Murder, 
+     main = 'Murder rate vs income by state', 
+     xlab = 'Income (per capita in 1974)', ylab = 'Murder rate (per 100,000) (1973)'
+     )
+abline(lm(UScombined$Murder~UScombined$Income), col="red") # regression line (y~x)
+
+```
+This fitted line allows to see a negative relationship between income and murder rates; the more income, the less murders are reported in a State.
 
 #### Correlation test
-Next, in order to formally test the correlation, I run a correlation test.
+Next, in order to formally test the correlation, a test can be made.
 
-```{R}
-cor.test(UScombined$Life.Exp, UScombined$Murder)
+```{R, echo=FALSE}
+cor.test(UScombined$Income, UScombined$Murder)
 ```
 
-The result indicates that there is a statistically significant negative correlation of `r cor(UScombined$Life.Exp, UScombined$Murder)`.
+The result indicates that there is a statistically insignificant negative correlation of `r cor(UScombined$Income, UScombined$Murder)`.
 
 
 #### Linear regression
-Finally, I estimate a simple bivariate linear regression.
+Finally, a simple bi-variate linear regression is estimated, to see the possible impact of this relation.
 
 ```{R}
-lmr <- lm(UScombined$Murder~UScombined$Life.Exp)
+lmr <- lm(UScombined$Murder~UScombined$Income)
 summary(lmr)
 ```
 
