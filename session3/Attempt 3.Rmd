@@ -27,7 +27,7 @@ To inspect the dataset, the user can use the code: `?swiss`
 For this excersice, we chose the dataset ***USArrests***
 
 List of ***Number of Crimes per State***
-```{r echo=FALSE}
+```{r, echo=FALSE}
 knitr::kable(USArrests)
 ```
 
@@ -90,8 +90,11 @@ Now, I can for example label the bar chart by abbrebiations.
 # sort the dataframe
 SortUScombined <- UScombined[order(-UScombined$Murder) , ]
 
-# wired problem... it didn't work if I separate the line (as someone posted online).
-barplot(SortUScombined$Murder, names.arg=SortUScombined$ABB, cex.names=0.7, las=2, main="Murder rate by state in 1973", xlab="State", ylab="Number of Murders (per 100,000)" )
+barplot(SortUScombined$Murder, names.arg=SortUScombined$ABB, 
+        cex.names=0.7, las=2, 
+        main="Murder rate by state in 1973", 
+        xlab="State", ylab="Number of Murders (per 100,000)"
+        )
 ```
 
  
