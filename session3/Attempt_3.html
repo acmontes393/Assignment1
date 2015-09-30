@@ -1342,10 +1342,11 @@ summary(lmr)</code></pre>
 ## Residual standard error: 4.298 on 48 degrees of freedom
 ## Multiple R-squared:  0.04631,    Adjusted R-squared:  0.02644 
 ## F-statistic: 2.331 on 1 and 48 DF,  p-value: 0.1334</code></pre>
-<p>The result shows that each additional year of life expectancy is on average associated with a -0.0015254 increase (which is equivalent to a 0.0015254 decrease) in murder rate per 100,000. However, this model has several problems.</p>
+<p>The result shows that each additional unit of income per capita is associated on average with a -0.0015254 increase (which is equivalent to a 0.0015254 decrease) in murder rate per 100,000. However, this estimates are not statistically significant, as shown by theyr P-values.</p>
+<p>From the theoretical perspective, this model has several problems.</p>
 <ul>
-<li><p>simultaneity: the model assumes that life expectancy affects murder rate, but murder rate may also affect life expectancy (the higher the murder rate is, the shorter people live (because more of them are killed!)). Sounds dangerous!</p></li>
-<li><p>Lack of control variables: definitely there are other variables that explains murder rates. By excluding them, the estimate may be biased.</p></li>
+<li><p>Endogeneity: the model assumes that income affects murder rate, but income can also be correlated with variables not accounted for and captures in the error term.</p></li>
+<li><p>Lack of control variables: definitely, there are other variables that could help explains murder rates. By excluding them, the estimate are probably biased. A recommendation for this is to follow theory.</p></li>
 </ul>
 </div>
 </div>

@@ -115,6 +115,7 @@ plot(UScombined$Income, UScombined$Murder,
 abline(lm(UScombined$Murder~UScombined$Income), col="red") # regression line (y~x)
 
 ```
+
 This fitted line allows to see a negative relationship between income and murder rates; the more income, the less murders are reported in a State.
 
 #### Correlation test
@@ -135,11 +136,13 @@ lmr <- lm(UScombined$Murder~UScombined$Income)
 summary(lmr)
 ```
 
-The result shows that each additional year of life expectancy is on average associated with a `r lmr$coefficients[2]` increase (which is equivalent to a `r abs(lmr$coefficients[2])` decrease) in murder rate per 100,000. 
-However, this model has several problems.
+The result shows that each additional unit of income per capita is associated on average with a `r lmr$coefficients[2]` increase (which is equivalent to a `r abs(lmr$coefficients[2])` decrease) in murder rate per 100,000. 
+However, this estimates are not statistically significant, as shown by theyr P-values. 
 
-* simultaneity: the model assumes that life expectancy affects murder rate, but murder rate may also affect life expectancy (the higher the murder rate is, the shorter people live (because more of them are killed!)). Sounds dangerous!
+From the theoretical perspective, this model has several problems.
 
-* Lack of control variables: definitely there are other variables that explains murder rates. By excluding them, the estimate may be biased.
+* Endogeneity: the model assumes that income affects murder rate, but income can also be correlated with variables not accounted for and captures in the error term.
+
+* Lack of control variables: definitely, there are other variables that could help explains murder rates. By excluding them, the estimate are probably biased. A recommendation for this is to follow theory.
 
 
