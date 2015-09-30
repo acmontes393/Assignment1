@@ -1,0 +1,139 @@
+---
+title: "Assignment 1"
+author: "S. Natalia Alvarado Pachon & Noriko Magara"
+date: "Octorber 2nd, 2015"
+output: html_document
+---
+
+```{r, echo=FALSE}
+setwd("C:/Users/noriko/Desktop/Assignment1/session3") # Please change this line!
+```
+
+# Using RStudio and Markdown
+
+## Description
+
+This document is the first attempt to use **Markdown** and **R**. I will use the R Code constructed in the last session of the class as main input and will show the main codes used for the outputs.
+
+## Using RStudio
+
+RStudio has built-in Datasets that users can use to generate outputs and practice their skills.
+
+To access the list of built-in lists in RStudio, the user must type: `data()`
+To select a dataset, the user can use the code: `data("swiss")`
+
+To inspect the dataset, the user can use the code: `?swiss`
+
+For this excersice, we chose the dataset ***USArrests***
+
+List of ***Number of Crimes per State***
+```{r echo=FALSE}
+knitr::kable(USArrests)
+```
+
+## Arrests in the US when convictions are related to murders
+
+Given that the typology of the arrest can affect dramatically the number of incidents and the violence of the crime, we chose to focus only on Arrests related to Murders.
+
+```{r}
+data("USArrests")
+```
+
+A summary of the information contained in the Dataset gives us a better detail of it
+
+```{r}
+
+summary(USArrests$Murder)
+
+```
+
+The boxplot for this Dataset:
+
+```{r}
+
+boxplot(USArrests$Murder, main = '# of Murders per State')
+
+```
+
+summary(USArrests$Murder)
+boxplot(USArrests$Murder, main = '# of Murders per State')
+
+### Central Tendency and Variation
+
+The mean for the data in the US Arrest is ***`r mean(USArrests$Murder)`***
+
+The median is ***`r median(USArrests$Murder)`***
+
+A histrogram shows more clearly the distribution of the data: 
+
+```{r}
+hist(USArrests$Murder)
+```
+
+
+
+
+## Analysis on viorent crimes
+### Combining some more variables together
+
+Another built-in dataset ***state*** contains information related to the 50 states. Here, I combined ***state.abb*** (state name abbrebiation) and ***state.x77*** (basic demographics) to the original ***USArrests*** dataframe and created new one called ***UScombined***, which now has abbrebiations and some demographics such as population, income, etc.
+
+The preparation of ***UScombined*** dataframe is coded in a separate code file to simplify the R Markdown file. The table below shows the whole resulting dataframe.
+
+```{r, results='asis'}
+source("USdataframe.R")
+knitr::kable(UScombined)
+```
+
+Now, I can for example label the bar chart by abbrebiations. 
+```{r}
+# sort the dataframe
+SortUScombined <- UScombined[order(-UScombined$Murder) , ]
+
+# wired problem... it didn't work if I separate the line (as someone posted online).
+barplot(SortUScombined$Murder, names.arg=SortUScombined$ABB, cex.names=0.7, las=2, main="Murder rate by state in 1973", xlab="State", ylab="Number of Murders (per 100,000)" )
+```
+
+ 
+### Muder rate vs life expectancy
+I am interested in exploring the relationship between murder rate and other variable. Here I look into the relationship between murder rate and life expectancy. 
+
+#### Scatter plot
+Below is the scatter plot of the two variables.
+
+```{R}
+plot(UScombined$Life.Exp, UScombined$Murder, 
+     main = 'Murder rate vs life expectancy by states', 
+     xlab = 'Life expectancy (1969-71)', ylab = 'Murder rate (per 100,000) (1973)'
+     )
+```
+
+It seems like there is a negative correlation, meaning the longer people live, the lower the murder rate in the state. (In those states, probably people are mentally in good health, as well as physicall health.)
+
+
+#### Correlation test
+Next, in order to formally test the correlation, I run a correlation test.
+
+```{R}
+cor.test(UScombined$Life.Exp, UScombined$Murder)
+```
+
+The result indicates that there is a statistically significant negative correlation of `r cor(UScombined$Life.Exp, UScombined$Murder)`.
+
+
+#### Linear regression
+Finally, I estimate a simple bivariate linear regression.
+
+```{R}
+lmr <- lm(UScombined$Murder~UScombined$Life.Exp)
+summary(lmr)
+```
+
+The result shows that each additional year of life expectancy is on average associated with a `r lmr$coefficients[2]` increase (which is equivalent to a `r abs(lmr$coefficients[2])` decrease) in murder rate per 100,000. 
+However, this model has several problems.
+
+* simultaneity: the model assumes that life expectancy affects murder rate, but murder rate may also affect life expectancy (the higher the murder rate is, the shorter people live (because more of them are killed!)). Sounds dangerous!
+
+* Lack of control variables: definitely there are other variables that explains murder rates. By excluding them, the estimate may be biased.
+
+
