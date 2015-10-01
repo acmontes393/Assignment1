@@ -2,7 +2,7 @@
 title: "Assignment 1"
 author: "S. Natalia Alvarado Pachon & Noriko Magara"
 date: "October 2nd, 2015"
-output: pdf_document
+output: html_document
 ---
 
 # Using RStudio and Markdown
@@ -79,6 +79,7 @@ knitr::kable(UScombined)
 ```
 
 Now, the bar chart can be labeled by abbreviations. 
+
 ```{r, echo=FALSE}
 # sort the dataframe
 SortUScombined <- UScombined[order(-UScombined$Murder) , ]
