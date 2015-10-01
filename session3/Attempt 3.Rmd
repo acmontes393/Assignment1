@@ -2,7 +2,7 @@
 title: "Assignment 1"
 author: "S. Natalia Alvarado Pachon & Noriko Magara"
 date: "October 2nd, 2015"
-output: html_document
+output: pdf_document
 ---
 
 # Using RStudio and Markdown
@@ -73,7 +73,7 @@ Another built-in data set ***state*** contains information related to the 50 sta
 
 The preparation of ***UScombined*** data frame is coded in a separate code file to simplify the R Markdown file. The table below shows the whole resulting data frame.
 
-```{r, results='asis'}
+```{r, echo=FALSE, results='asis'}
 source("USdataframe.R")
 knitr::kable(UScombined)
 ```
@@ -131,7 +131,7 @@ The result indicates that there is a statistically insignificant negative correl
 #### Linear regression
 Finally, a simple bi-variate linear regression is estimated, to see the possible impact of this relation.
 
-```{R}
+```{R, echo=FALSE}
 lmr <- lm(UScombined$Murder~UScombined$Income)
 summary(lmr)
 ```
