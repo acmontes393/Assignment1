@@ -20,6 +20,12 @@ Short description of files contained:
 
 6. USdataframe.R - Data file containing the combination of two datasts to avoid repetition in the original source code.
 
+#### Pull request
+
+* A pull request by [Claire](https://github.com/bctclc) on this README file was merged to this file.
+
+* A pull request to [Claire and Laurence's codes](https://github.com/bctclc/Collaborative-Data-Analysis-Assignment1) was merged by them.
+
 For any questions or doubts, please contact the contributors at their respective emails.
 
 
