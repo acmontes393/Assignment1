@@ -1,4 +1,4 @@
-# Assignment N1 - MPP-E1180: Introduction to Collaborative Social Science Data Analysis
+# Assignment No.1 - MPP-E1180: Introduction to Collaborative Social Science Data Analysis
 ### Folder name: Session 3
 ### Contributors: S. Natalia Alvarado Pachon <a href="mailto:contact@natalia.im">contact@natalia.im</a> and Noriko Magara <a href="norikomagara@gmail.com">norikomagara@gmail.com</a>.
 
